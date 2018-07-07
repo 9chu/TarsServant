@@ -15,3 +15,10 @@ add_subdirectory(src/util)
 add_subdirectory(tools/tarsparse)
 add_subdirectory(tools/tars2cpp)
 add_subdirectory(src/servant)
+
+function(TARS_GENERATE_TAR TARGET)
+    add_custom_target(${TARGET}-tar COMMAND
+        tar "-czvf" "${TARGET}.tgz" "--transform" "'s,^.*/\\|^,${TARGET}/,'" $<TARGET_FILE:${TARGET}>
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        DEPENDS ${TARGET})
+endfunction()
