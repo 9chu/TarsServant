@@ -1,4 +1,5 @@
 find_package(MySQL REQUIRED)
+find_package(Threads REQUIRED)
 
 enable_language(ASM)
 
@@ -17,6 +18,7 @@ endif ()
 add_library(tarsutil STATIC ${TARSUTIL_SRC})
 target_include_directories(tarsutil PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../../include)
 target_include_directories(tarsutil PUBLIC ${MYSQL_INCLUDE_DIR})
+target_link_libraries(tarsutil ${CMAKE_THREAD_LIBS_INIT})
 #target_link_libraries(tarsutil ${MYSQL_LIBRARIES})
 
 if("${TARS_SSL}" EQUAL 1)
