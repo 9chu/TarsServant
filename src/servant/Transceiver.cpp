@@ -21,6 +21,8 @@
 //#include "servant/AuthLogic.h"
 #include "servant/Auth.h"
 
+#include <sys/uio.h>
+
 #if TARS_SSL
 #include "util/tc_openssl.h"
 #endif

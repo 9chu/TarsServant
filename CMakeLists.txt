@@ -22,3 +22,18 @@ function(TARS_GENERATE_TAR TARGET)
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         DEPENDS ${TARGET})
 endfunction()
+
+function(TARS_UPLOAD_TAR URL APP TARGET)
+    add_custom_target(${TARGET}-upload COMMAND
+        curl -X POST -F "file=@${TARGET}.tgz"
+        "${URL}/pages/server/api/upload_patch_package?application=${APP}\\&module_name=${TARGET}\\&comment=AutoUpload"
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        DEPENDS ${TARGET}-tar)
+endfunction()
+
+function(TARS_AUTO_DEPLOY_TAR URL APP TARGET)
+    add_custom_target(${TARGET}-auto-deploy COMMAND
+        bash -c "$<TARGET_PROPERTY:tarsutil,SOURCE_DIR>/../../tools/auto_deploy.sh '${URL}' '${APP}' '${TARGET}'"
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+        DEPENDS ${TARGET}-tar)
+endfunction()

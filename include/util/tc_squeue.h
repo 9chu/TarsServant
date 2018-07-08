@@ -24,6 +24,7 @@
 #include <iostream>
 #include <cassert>
 #include <iostream>
+#include "tc_ex.h"
 
 /**
  * 结构化的queue，在一边读一边写的情况下可以不用加锁，是线程(进程)安全的
@@ -40,7 +41,7 @@ public:
     TC_SQueue() {_header = nullptr;_data = nullptr;}
     ~TC_SQueue() {_header = nullptr;_data = nullptr;}
 
-    void attach(char* pBuf, unsigned long iBufSize) throw (TC_Exception)
+    void attach(char* pBuf, unsigned long iBufSize)
     {
         if(iBufSize <= sizeof(Header)+MarkLen+ReserveLen) 
         {
@@ -59,7 +60,7 @@ public:
             throw TC_Exception("TC_SQueue::attach fail: iEnd > iBufSize - sizeof(Header);");
     }
 
-    void create(char* pBuf, unsigned long iBufSize) throw (TC_Exception)
+    void create(char* pBuf, unsigned long iBufSize)
     {
         if(iBufSize <= sizeof(Header)+MarkLen+ReserveLen) 
         {
