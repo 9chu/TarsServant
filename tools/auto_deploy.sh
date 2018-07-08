@@ -28,4 +28,9 @@ fi
 echo "] Deploying ${2}.${3} PATCH_ID=${PATCH_ID}"
 
 POST_CONTENT="{\"serial\":true,\"items\":[{\"server_id\":${SERVER_ID},\"command\":\"patch_tars\",\"parameters\":{\"patch_id\":${PATCH_ID},\"update_text\":\"AutoUpload_${UPLOAD_DATE}\",\"bak_flag\":false}}]}"
-curl -s -X POST -H "Accept: application/json" -H "Content-type: application/json" -d "${POST_CONTENT}" ${1}/pages/server/api/add_task
+RESULT=`curl -s -X POST -H "Accept: application/json" -H "Content-type: application/json" -d "${POST_CONTENT}" ${1}/pages/server/api/add_task`
+RET_CODE=`echo "${RESULT}" | grep -oP '(?<="ret_code": )([0-9]+)'`
+TASK_NO=`echo "${RESULT}" | grep -oP '(?<="task_no":")([0-9a-zA-Z]+)(?=","serial")'`
+
+echo "] RET_CODE=${RET_CODE} TASK_NO=${TASK_NO}"
+echo "] Done"

@@ -415,8 +415,10 @@ namespace tars
         }
 
         LoggerStream(LoggerStream&& rhs)
-            : _stream(rhs._stream), _estream(rhs._estream), _mutex(rhs._mutex), _buffer(std::move(rhs._buffer))
+            : _stream(rhs._stream), _estream(rhs._estream), _mutex(rhs._mutex) /*, _buffer(std::move(rhs._buffer)) */
         {
+            // fix gcc4.8 issue
+            _buffer << rhs._buffer;
         }
 
         /**
